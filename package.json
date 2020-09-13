@@ -29,7 +29,7 @@
     ],
     "scripts": {
         "test": "yarn lint-no-fix && intern",
-        "lint": "eslint --fix \"src/**/*.ts\"",
+        "lint": "eslint --fix \"src/**/*.ts\" \"test/**/*.ts\"",
         "lint-no-fix": "eslint \"src/**/*.ts\"",
         "type-check": "tsc --noEmit",
         "build": "rimraf dist && tsc -p src/tsconfig.json"
