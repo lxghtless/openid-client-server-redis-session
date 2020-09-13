@@ -1,6 +1,6 @@
 {
     "name": "@lxghtless/openid-client-server-redis-session",
-    "version": "1.0.0-canary.2",
+    "version": "1.0.0-canary.3",
     "repository": "git@github.com:lxghtless/openid-client-server-redis-session",
     "homepage": "https://github.com/lxghtless/openid-client-server-redis-session/",
     "author": {
