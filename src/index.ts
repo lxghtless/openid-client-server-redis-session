@@ -3,6 +3,7 @@ import {EventEmitter} from 'events'
 // TODO: switch to root import once @optum/openid-client-server publishes the next package update
 import {Json} from '@optum/openid-client-server/dist/json'
 import {Session, SessionStore} from '@optum/openid-client-server/dist/session'
+import assert from 'assert'
 import {IHandyRedis, createHandyClient} from 'handy-redis'
 import {ClientOpts, RedisClient} from 'redis'
 import {TokenSet} from 'openid-client'
@@ -22,13 +23,15 @@ export class RedisSessionStore implements SessionStore {
      * @param {string} keyPrefix - A string used to prefix sessionId's for storing in redis.
      */
     constructor(optionsOrClient: ClientOpts | RedisClient, keyPrefix: string) {
+        this.keyPrefix = keyPrefix
+        assert(keyPrefix, 'keyPrefix is required by RedisSessionStore')
+
         // NOTE: idk, this seems to make TS happy even though it's not needed in JS land
         if (optionsOrClient instanceof EventEmitter) {
             this.client = createHandyClient(optionsOrClient)
         } else {
             this.client = createHandyClient(optionsOrClient)
         }
-        this.keyPrefix = keyPrefix
         this.keysPattern = `${this.keyPrefix}:*`
     }
 
