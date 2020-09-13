@@ -5,6 +5,7 @@ import {Json} from '@optum/openid-client-server/dist/json'
 import {Session, SessionStore} from '@optum/openid-client-server/dist/session'
 import {IHandyRedis, createHandyClient} from 'handy-redis'
 import {ClientOpts, RedisClient} from 'redis'
+import {TokenSet} from 'openid-client'
 
 /**
  * Class representing a SessionStore with a Redis implementation
@@ -35,6 +36,15 @@ export class RedisSessionStore implements SessionStore {
         return `${this.keyPrefix}:${sessionId}`
     }
 
+    withTokenSet(session: Session): Session {
+        if (session.tokenSet) {
+            Object.assign(session, {
+                tokenSet: new TokenSet(session.tokenSet)
+            })
+        }
+        return session
+    }
+
     /*
         NOTE: consider removing this from the interface in @optum/openid-client-server
         as it doesn't appear to be used
@@ -49,7 +59,8 @@ export class RedisSessionStore implements SessionStore {
     async get(sessionId: string): Promise<Session | undefined> {
         const sessionString = await this.client.get(this.sessionKey(sessionId))
         if (sessionString) {
-            return JSON.parse(sessionString)
+            const session: Session = JSON.parse(sessionString)
+            return this.withTokenSet(session)
         }
     }
 
@@ -65,7 +76,7 @@ export class RedisSessionStore implements SessionStore {
             if (rValue) {
                 const session: Session = JSON.parse(rValue)
                 if (session[key] === value) {
-                    return session
+                    return this.withTokenSet(session)
                 }
             }
         }
