@@ -58,7 +58,7 @@ describe('redis-session-store', () => {
         let session = await sessionStore.get(sessionId)
 
         expect(session).to.not.be.undefined
-       
+
         await sessionStore.destroy(sessionId)
 
         session = await sessionStore.get(sessionId)
@@ -79,8 +79,8 @@ describe('redis-session-store', () => {
         let session = await sessionStore.get(sessionId)
 
         expect(session).to.not.be.undefined
-       
-        session = await sessionStore.getByPair('csrfString',  csrfString)
+
+        session = await sessionStore.getByPair('csrfString', csrfString)
 
         expect(session).to.not.be.undefined
         expect(session?.csrfString).to.equal(csrfString)
