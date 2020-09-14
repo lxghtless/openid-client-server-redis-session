@@ -8,6 +8,9 @@
 </p>
 
 <p align="center">
+	<a href="https://www.npmjs.com/package/@lxghtless/openid-client-server-redis-session">
+		<img src="https://img.shields.io/npm/v/@lxghtless/openid-client-server-redis-session?color=blue" />
+	</a>
 	<a href="https://www.typescriptlang.org/">
 		<img src="https://aleen42.github.io/badges/src/typescript.svg" />
 	</a>
@@ -36,7 +39,8 @@ const redisClientOptions = {
     host: '127.0.0.1:6379'
 }
 
-const sessionKeyPrefix = 'KeyToPrefixSessionIds'
+// A string used to prefix sessionId's for storing in redis
+const sessionKeyPrefix = 'web-app-sessions'
 
 const sessionStore = new RedisSessionStore(redisClientOptions, sessionKeyPrefix)
 ```
